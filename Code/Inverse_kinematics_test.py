@@ -7,6 +7,7 @@ Created on Fri Dec 20 12:25:06 2019
 
 import numpy as num
 import matplotlib.pyplot as plt
+import sys
 
 #_______________________________________________________________________________________________________________________#
 # Function to find the intersection of two circles, returns an array with two arrays having x amd y
@@ -19,7 +20,12 @@ def circle_intersection(f1 = 0, f2 = 0, o1 = 0, o2 = 0, l1 = 0, l2 = 0):
     
     
     rot1 = (l1**2 - l2**2 + R**2)/(2*R)
-    rot2 = (l1**2 - rot1**2)**0.5
+    if l1**2 >= rot1**2:
+        rot2 = (l1**2 - rot1**2)**0.5
+    else:
+        print("error, not enough reach")
+        input("press any key to exit")
+        sys.exit()
     
     x = ((rot1/R) * (x_cor)) + ((rot2/R) * (y_cor)) + o1
     y = ((rot1/R) * (y_cor)) - ((rot2/R) * (x_cor)) + o2
@@ -98,13 +104,15 @@ def extension(X_cord, Y_cord, target_X, target_Y ,f_length, b_length):
     plt.show()
     
     bicep_line = generate_line(origin, optimal_point)
+    print(bicep_line)
     forearm_line = generate_line(optimal_point, target_point)
+    print(forearm_line)
     
     x_axis = [0,0]
     
     angles = []
 
-    shoulder_angle = ang_between_lines(bicep_line, x_axis)
+    shoulder_angle = ang_between_lines(x_axis,bicep_line)
     elbow_angle = ang_between_lines(forearm_line, bicep_line)
     
     angles.append(shoulder_angle)
@@ -139,11 +147,12 @@ def Inverse_kinematics(final_x, final_y, final_z, init_x, init_y, init_z):
     
     angles = extension(R_init, Z_init, R_fin, Z_fin, f_length, b_length)
     
-    servo_angle_1 = theta*180
-    servo_angle_2 = angles[0]*180
-    servo_angle_3 = angles[1]*180
+    servo_angle_1 = (theta/3.14)*180
+    servo_angle_2 = (angles[0]/3.14)*180
+    servo_angle_3 = (angles[1]/3.14)*180
     print("servo 1's angle is", servo_angle_1)
     print("servo 2's angle is", servo_angle_2)
     print("servo 3's angle is", servo_angle_3)
   
-Inverse_kinematics(6,6,5,5,5,5)
+Inverse_kinematics(1,1,1,5,5,5)
+
