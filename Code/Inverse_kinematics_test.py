@@ -20,12 +20,7 @@ def circle_intersection(f1 = 0, f2 = 0, o1 = 0, o2 = 0, l1 = 0, l2 = 0):
     
     
     rot1 = (l1**2 - l2**2 + R**2)/(2*R)
-    if l1**2 >= rot1**2:
-        rot2 = (l1**2 - rot1**2)**0.5
-    else:
-        print("error, not enough reach")
-        input("press any key to exit")
-        sys.exit()
+    rot2 = (l1**2 - rot1**2)**0.5
     
     x = ((rot1/R) * (x_cor)) + ((rot2/R) * (y_cor)) + o1
     y = ((rot1/R) * (y_cor)) - ((rot2/R) * (x_cor)) + o2
