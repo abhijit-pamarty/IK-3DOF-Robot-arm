@@ -61,7 +61,7 @@ def generate_line(point_1 , point_2 ):
 #_______________________________________________________________________________________________________________________#
 # Function to find angle between two lines
 def ang_between_lines(line1, line2):
-    return(num.arctan(abs((line1[0] - line2[0])/(1 + (line1[0]*line2[0])))))
+    return(num.arctan((line1[0] - line2[0])/(1 + (line1[0]*line2[0]))))
     
 #_______________________________________________________________________________________________________________________#
 # Function to find the angle of the servos 
@@ -91,16 +91,17 @@ def extension(X_cord, Y_cord, target_X, target_Y ,f_length, b_length):
     x_values_bicep = [origin[0],optimal_point[0]]
     y_values_bicep = [origin[1],optimal_point[1]]
     
-    plt.plot(x_values_bicep,y_values_bicep)
+    plt.plot(x_values_bicep,y_values_bicep, color = "black", linewidth = 5)
     
     x_values_forearm = [optimal_point[0],target_point[0]]
     y_values_forearm = [optimal_point[1],target_point[1]]
     
-    plt.plot(x_values_forearm,y_values_forearm)
+    plt.plot(x_values_forearm,y_values_forearm, color = "black", linewidth = 5)
     
-    plt.scatter(origin[0],origin[1], color = "blue")
-    plt.scatter(target_point[0],target_point[1], color = "red")
-    plt.scatter( optimal_point[0], optimal_point[1], color = "green")
+    
+    plt.scatter(origin[0],origin[1], color = "black", s = 250,  marker = "s")
+    plt.scatter(target_point[0],target_point[1], color = "red", s = 200, marker = 9)
+    plt.scatter( optimal_point[0], optimal_point[1], color = "red", s= 100, marker = "s")
     plt.show()
     
     bicep_line = generate_line(origin, optimal_point)
@@ -134,7 +135,7 @@ def Inverse_kinematics(final_x, final_y, final_z, init_x, init_y, init_z):
     
     f_length = 5
     b_length = 5
-    base_x = 0 
+    base_x = 0
     base_y = 0
     base_z = 0
     angles = []
@@ -147,12 +148,12 @@ def Inverse_kinematics(final_x, final_y, final_z, init_x, init_y, init_z):
     
     angles = extension(R_init, Z_init, R_fin, Z_fin, f_length, b_length)
     
-    servo_angle_1 = (theta/3.14)*180
-    servo_angle_2 = (angles[0]/3.14)*180
-    servo_angle_3 = (angles[1]/3.14)*180
+    servo_angle_1 = (theta/3.14)*180 + 90
+    servo_angle_2 = (angles[0]/3.14)*180 + 90
+    servo_angle_3 = (angles[1]/3.14)*180 + 90
     print("servo 1's angle is", servo_angle_1)
     print("servo 2's angle is", servo_angle_2)
     print("servo 3's angle is", servo_angle_3)
   
-Inverse_kinematics(1,1,1,5,5,5)
+Inverse_kinematics(8.5,5,5,5,5,5)
 
