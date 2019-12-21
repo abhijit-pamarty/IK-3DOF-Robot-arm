@@ -7,7 +7,6 @@ Created on Fri Dec 20 12:25:06 2019
 
 import numpy as num
 import matplotlib.pyplot as plt
-import sys
 
 #_______________________________________________________________________________________________________________________#
 # Function to find the intersection of two circles, returns an array with two arrays having x amd y
@@ -132,7 +131,7 @@ def Inverse_kinematics(final_x, final_y, final_z, init_x, init_y, init_z):
     
     reach = (f_length + b_length)**2
     
-    if check_bounds > base_size and check_bounds < reach and check_floor:
+    if check_bounds > base_size and check_bounds < reach and check_floor and final_y >= 0:
     
         
         base_x = 0
@@ -159,7 +158,7 @@ def Inverse_kinematics(final_x, final_y, final_z, init_x, init_y, init_z):
     elif check_bounds < base_size:
         print("Action terminated, collision with base")
     
-    elif check_bounds > reach:
+    elif check_bounds > reach or final_y < 0:
         print("Action terminated, not enough reach")
     
     elif check_floor == 0:
@@ -167,4 +166,4 @@ def Inverse_kinematics(final_x, final_y, final_z, init_x, init_y, init_z):
     else:
         print("Unknown error, please terminate the program")
   
-Inverse_kinematics(7,0,7,5,5,5)
+Inverse_kinematics(5,0,4,5,5,5)
