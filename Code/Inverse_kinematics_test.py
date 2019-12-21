@@ -61,7 +61,7 @@ def generate_line(point_1 , point_2 ):
 #_______________________________________________________________________________________________________________________#
 # Function to find angle between two lines
 def ang_between_lines(line1, line2):
-    return(num.arctan((line1[0] - line2[0])/(1 + (line1[0]*line2[0]))))
+    return(num.arctan(abs((line1[0] - line2[0])/(1 + (line1[0]*line2[0])))))
     
 #_______________________________________________________________________________________________________________________#
 # Function to find the angle of the servos 
@@ -78,12 +78,12 @@ def extension(X_cord, Y_cord, target_X, target_Y ,f_length, b_length):
         if distance <= min_distance:
             optimal_point = value
         
-    print("optimal point:", optimal_point)
+    print("optimal point:\n", optimal_point)
     origin = [0,0]
     target_point = [target_X, target_Y]
     
     
-    plt.scatter(0,0, color = "white")
+    plt.scatter(0,0, color = "white") #to define the boundaries of the graph
     plt.scatter(10,10, color = "white")
     plt.scatter(0,10, color = "white")
     plt.scatter(10,0, color = "white")
@@ -105,9 +105,7 @@ def extension(X_cord, Y_cord, target_X, target_Y ,f_length, b_length):
     plt.show()
     
     bicep_line = generate_line(origin, optimal_point)
-    print(bicep_line)
     forearm_line = generate_line(optimal_point, target_point)
-    print(forearm_line)
     
     x_axis = [0,0]
     
@@ -130,30 +128,48 @@ def extension(X_cord, Y_cord, target_X, target_Y ,f_length, b_length):
 def Inverse_kinematics(final_x, final_y, final_z, init_x, init_y, init_z):
     
     
+    check_bounds = (final_x**2) + (final_y**2) + (final_z**2)
+    check_floor  = bool(final_z > 0)
     
-    
-    
+    base_size = 0.5
     f_length = 5
     b_length = 5
-    base_x = 0
-    base_y = 0
-    base_z = 0
-    angles = []
     
-    R_init = (((init_x - base_x)**2)+((init_y - base_y)**2))**0.5
-    R_fin = (((final_x - base_x)**2)+((final_y - base_y)**2))**0.5
-    theta = num.arctan((final_y - base_y)/(final_x - base_x))
-    Z_init = init_z - base_z
-    Z_fin = final_z - base_z
+    reach = (f_length + b_length)**2
     
-    angles = extension(R_init, Z_init, R_fin, Z_fin, f_length, b_length)
+    if check_bounds > base_size and check_bounds < reach and check_floor:
     
-    servo_angle_1 = (theta/3.14)*180 + 90
-    servo_angle_2 = (angles[0]/3.14)*180 + 90
-    servo_angle_3 = (angles[1]/3.14)*180 + 90
-    print("servo 1's angle is", servo_angle_1)
-    print("servo 2's angle is", servo_angle_2)
-    print("servo 3's angle is", servo_angle_3)
+        
+        base_x = 0
+        base_y = 0
+        base_z = 0
+        angles = []
+        
+        R_init = (((init_x - base_x)**2)+((init_y - base_y)**2))**0.5
+        R_fin = (((final_x - base_x)**2)+((final_y - base_y)**2))**0.5
+        theta = num.arctan((final_y - base_y)/(final_x - base_x))
+        Z_init = init_z - base_z
+        Z_fin = final_z - base_z
+        
+        
+        angles = extension(R_init, Z_init, R_fin, Z_fin, f_length, b_length)
+        
+        servo_angle_1 = (theta/3.14)*180 
+        servo_angle_2 = (angles[0]/3.14)*180 
+        servo_angle_3 = (angles[1]/3.14)*180 
+        print("servo 1's angle is", servo_angle_1)
+        print("servo 2's angle is", servo_angle_2)
+        print("servo 3's angle is", servo_angle_3)
+    
+    elif check_bounds < base_size:
+        print("Action terminated, collision with base")
+    
+    elif check_bounds > reach:
+        print("Action terminated, not enough reach")
+    
+    elif check_floor == 0:
+        print("Action terminated, collision with floor")
+    else:
+        print("Unknown error, please terminate the program")
   
-Inverse_kinematics(8.5,5,5,5,5,5)
-
+Inverse_kinematics(7,0,7,5,5,5)
