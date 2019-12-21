@@ -45,8 +45,10 @@ def circle_intersection(f1 = 0, f2 = 0, o1 = 0, o2 = 0, l1 = 0, l2 = 0):
 # Function to find angle between two lines
     
 def generate_line(point_1 , point_2 ):
-    
-    slope = (point_2[1] - point_1[1])/(point_2[0] - point_1[0])
+    if (point_2[0] - point_1[0]) != 0:
+        slope = (point_2[1] - point_1[1])/(point_2[0] - point_1[0])
+    else:
+        slope = 1000000 #effectively infinity
     constant = -1*slope*point_1[0] + point_1[1]
     line = []
     line.append(slope)
@@ -166,4 +168,4 @@ def Inverse_kinematics(final_x, final_y, final_z, init_x, init_y, init_z):
     else:
         print("Unknown error, please terminate the program")
   
-Inverse_kinematics(5,0,4,5,5,5)
+Inverse_kinematics(7,0,1,6,0,1)
