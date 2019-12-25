@@ -19,6 +19,7 @@ float b_length = 7.0, f_length = 8.0;
 float current_x, current_y, current_z;
 float previous_x, previous_y, previous_z;
 float increment = 0.01;
+float pi = 3.14159;
 Servo servo_1, servo_2, servo_3;
 
 //_________________________________________________________________________________________________________________________________________________________________________
@@ -232,6 +233,11 @@ void loop() {
 
   servo_1_angle, servo_2_angle, servo_3_angle, error_check = Inverse_kinematics( current_x, current_y, current_z, previous_x, previous_y, previous_z);
 
+  servo_1_angle = map(servo_1_angle, -pi/2, pi/2, 0, 180);
+  servo_2_angle = map(servo_2_angle, -pi/2, pi/2, 0, 180);
+  servo_3_angle = map(servo_3_angle, -pi/2, pi/2, 0, 180);
+
+  
   error_check = int(error_check);
 
  
