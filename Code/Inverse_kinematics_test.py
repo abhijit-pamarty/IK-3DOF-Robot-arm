@@ -42,7 +42,7 @@ def circle_intersection(f1 = 0, f2 = 0, o1 = 0, o2 = 0, l1 = 0, l2 = 0):
     
     return values
 #_______________________________________________________________________________________________________________________#
-# Function to find angle between two lines
+# Function to create a line
     
 def generate_line(point_1 , point_2 ):
     if (point_2[0] - point_1[0]) != 0:
@@ -57,7 +57,7 @@ def generate_line(point_1 , point_2 ):
 #_______________________________________________________________________________________________________________________#
 # Function to find angle between two lines
 def ang_between_lines(line1, line2):
-    return(num.arctan(abs((line1[0] - line2[0])/(1 + (line1[0]*line2[0])))))
+    return(num.arctan((line1[0] - line2[0])/(1 + (line1[0]*line2[0]))))
     
 #_______________________________________________________________________________________________________________________#
 # Function to find the angle of the servos 
@@ -80,9 +80,9 @@ def extension(X_cord, Y_cord, target_X, target_Y ,f_length, b_length):
     
     
     plt.scatter(0,0, color = "white") #to define the boundaries of the graph
-    plt.scatter(10,10, color = "white")
-    plt.scatter(0,10, color = "white")
-    plt.scatter(10,0, color = "white")
+    plt.scatter(25,25, color = "white")
+    plt.scatter(0,25, color = "white")
+    plt.scatter(25,0, color = "white")
     
     x_values_bicep = [origin[0],optimal_point[0]]
     y_values_bicep = [origin[1],optimal_point[1]]
@@ -127,9 +127,11 @@ def Inverse_kinematics(final_x, final_y, final_z, init_x, init_y, init_z):
     check_bounds = (final_x**2) + (final_y**2) + (final_z**2)
     check_floor  = bool(final_z > 0)
     
-    base_size = 0.5
-    f_length = 5
-    b_length = 5
+    
+    f_length = 9.4
+    b_length = 6
+    base_size = abs(f_length - b_length)
+    
     
     reach = (f_length + b_length)**2
     
@@ -148,11 +150,45 @@ def Inverse_kinematics(final_x, final_y, final_z, init_x, init_y, init_z):
         Z_fin = final_z - base_z
         
         
-        angles = extension(R_init, Z_init, R_fin, Z_fin, f_length, b_length)
+        angles = extension(R_init, Z_init, R_fin, Z_fin, b_length, f_length)
         
         servo_angle_1 = (theta/3.14)*180 
+        
+        if servo_angle_1 < 0:
+            
+                servo_angle_1 = 180 + servo_angle_1
+            
+        else:
+            
+                servo_angle_1 = servo_angle_1
+            
+            
+            
         servo_angle_2 = (angles[0]/3.14)*180 
+        
+        if servo_angle_2 < 0:
+            
+                servo_angle_2 = 180 + servo_angle_2
+            
+        else:
+            
+                servo_angle_2 = servo_angle_2
+            
+        servo_angle_2 = 180 - servo_angle_2
+        
         servo_angle_3 = (angles[1]/3.14)*180 
+        
+        if servo_angle_3 < 0:
+            
+                servo_angle_3 = 180 + servo_angle_3
+            
+        else:
+            
+                servo_angle_3 = servo_angle_3
+            
+            
+            
+        
         print("servo 1's angle is", servo_angle_1)
         print("servo 2's angle is", servo_angle_2)
         print("servo 3's angle is", servo_angle_3)
@@ -168,4 +204,4 @@ def Inverse_kinematics(final_x, final_y, final_z, init_x, init_y, init_z):
     else:
         print("Unknown error, please terminate the program")
   
-Inverse_kinematics(7,0,1,6,0,1)
+Inverse_kinematics(5,5,5,5,5,5)
