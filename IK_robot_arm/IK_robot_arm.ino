@@ -15,10 +15,10 @@
 #define servo_pin_1 5
 #define servo_pin_2 6
 #define servo_pin_3 7
-float b_length = 6.0, f_length = 9.4;
+float b_length = 5.5, f_length = 9.35;
 float current_x, current_y, current_z;
 float previous_x, previous_y, previous_z;
-float increment = 1;
+float increment = 0; // put this to zero if you want to use joysticks
 float pi = 3.14159;
 Servo servo_1, servo_2, servo_3;
 
@@ -37,14 +37,14 @@ void setup() {
   Serial.println("reach");
   Serial.print(reach);
   
-  current_x = 5;
-  current_y = 6;
-  current_z = 5;     //Move the arm to the initial position
+  current_x = 3;
+  current_y = 7;
+  current_z = 4;     //Move the arm to the initial position
   
   delay(100);
-  previous_x = 5; 
-  previous_y = 6;
-  previous_z = 5;  //And say that position before t = 0 was also the same
+  previous_x = 3; 
+  previous_y = 7;
+  previous_z = 4;  //And say that position before t = 0 was also the same
   
   servo_1.attach(servo_pin_1);                                     //attach servos to their respective pins
   servo_2.attach(servo_pin_2);
@@ -139,7 +139,7 @@ var_5 error_protocol(float init_x,float init_y,float init_z)
    float base_x = 0, base_y = 0, base_z = 0;
 
        
-   float R_init = pow((pow((init_x - base_x),2) + pow((init_y - base_y),2)),2);
+   float R_init = pow((pow((init_x - base_x),2) + pow((init_y - base_y),2)),0.5);
    float theta = atan((init_y - base_y)/(init_x - base_x));
    float Z_init = init_z - base_z;
 
@@ -342,6 +342,7 @@ void loop() {
     {
       servo_2_angle = servo_2_angle;
     }
+  servo_2_angle = 180 - servo_2_angle;
   
   servo_3_angle = 180/3.14159 * servo_3_angle;
   if (servo_3_angle < 0)
@@ -427,5 +428,5 @@ Serial.print("servo 2's angle:");
 Serial.println(servo_2_angle);
 Serial.print("servo 3's angle:");
 Serial.println(servo_3_angle);
-delay(100000);
+delay(1000000);
 }
