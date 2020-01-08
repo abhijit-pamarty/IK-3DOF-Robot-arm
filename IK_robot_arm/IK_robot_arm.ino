@@ -37,14 +37,14 @@ void setup() {
   Serial.println("reach");
   Serial.print(reach);
   
-  current_x = 3;
-  current_y = 7;
-  current_z = 4;     //Move the arm to the initial position
+  current_x = 8; 
+  current_y = 0;
+  current_z = 5;     //Move the arm to the initial position
   
   delay(100);
-  previous_x = 3; 
-  previous_y = 7;
-  previous_z = 4;  //And say that position before t = 0 was also the same
+  previous_x = 8; 
+  previous_y = 0;
+  previous_z = 5;  //And say that position before t = 0 was also the same
   
   servo_1.attach(servo_pin_1);                                     //attach servos to their respective pins
   servo_2.attach(servo_pin_2);
@@ -389,9 +389,23 @@ void loop() {
     
   if (error_check == 0)
    {
-     servo_1.write(servo_1_angle);
-     servo_2.write(servo_2_angle);
-     servo_3.write(servo_3_angle);
+     for( int i = 0; i <= servo_1_angle; i++);
+     {
+      servo_1.write(servo_1_angle);
+      delay(100);
+     }
+     
+     for( int i = 0; i <= servo_2_angle; i++);
+     {
+      servo_2.write(servo_2_angle);
+      delay(100);
+     }
+     
+     for( int i = 0; i <= servo_3_angle; i++);
+     {
+      servo_3.write(servo_3_angle);
+      delay(100);
+     }
 
      current_x = increment*joystick_1 + current_x;
      current_y = increment*joystick_2 + current_y;
@@ -411,9 +425,24 @@ void loop() {
      current_x = current_x - 1;
      current_y = current_y - 1;
      Serial.print("ERROR");
-     servo_1.write(servo_1_angle);
-     servo_2.write(servo_2_angle);
-     servo_3.write(servo_3_angle);
+     
+     for( int i = 0; i <= servo_1_angle; i++);
+     {
+      servo_1.write(servo_1_angle);
+      delay(100);
+     }
+     
+     for( int i = 0; i <= servo_2_angle; i++);
+     {
+      servo_2.write(servo_2_angle);
+      delay(100);
+     }
+     
+     for( int i = 0; i <= servo_3_angle; i++);
+     {
+      servo_3.write(servo_3_angle);
+      delay(100);
+     }
      
      
      
